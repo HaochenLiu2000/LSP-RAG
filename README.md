@@ -10,7 +10,7 @@ Place the files or folders `metaqa_kg.pickle`, `kb.txt`, `1-hop/vanilla`(renamed
 
 Place the folder `webqsp` and `wikimovie` for the other two datasets.
 
-Download the Llama2-chat model [here](https://huggingface.co/meta-llama) and place the model under `/MoRA/`.
+Download the Llama model [here](https://huggingface.co/meta-llama) and place the model under `/MoRA/`.
 
 ## 2. Dependencies
 
