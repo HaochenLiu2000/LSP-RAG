@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn import Linear
-from transformers import T5Tokenizer, T5ForConditionalGeneration, LlamaTokenizer, LlamaForCausalLM
+from transformers import T5Tokenizer, T5ForConditionalGeneration, LlamaTokenizer, LlamaForCausalLM, AutoTokenizer, AutoModelForCausalLM
 from tqdm import tqdm
 from torch_geometric.nn.glob import global_mean_pool, global_add_pool, global_max_pool
 import random
@@ -49,20 +49,23 @@ openai_key=""
 
 llm='llama2-7bchat'
 llm='flant5-3b'
+llm='Llama3'
 
 if llm=='llama2-7bchat':
-    tokenizer = LlamaTokenizer.from_pretrained("./llama2-7bchat")
-    model = LlamaForCausalLM.from_pretrained("./llama2-7bchat")
+    tokenizer = LlamaTokenizer.from_pretrained("./../llama2-7bchat")
+    model = LlamaForCausalLM.from_pretrained("./../llama2-7bchat")
 elif llm=='llama2-13bchat':
-    tokenizer = LlamaTokenizer.from_pretrained("./llama2-13bchat")
-    model = LlamaForCausalLM.from_pretrained("./llama2-13bchat")
+    tokenizer = LlamaTokenizer.from_pretrained("./../llama2-13bchat")
+    model = LlamaForCausalLM.from_pretrained("./../llama2-13bchat")
+elif llm=='Llama3':
+    tokenizer = AutoTokenizer.from_pretrained("./../Llama3")
+    model = AutoModelForCausalLM.from_pretrained("./../Llama3")
 elif llm=="flant5-3b":
     tokenizer = T5Tokenizer.from_pretrained("google/flan-t5-xl")
     model = T5ForConditionalGeneration.from_pretrained("google/flan-t5-xl")
 elif llm=="flant5-11b":
     tokenizer = T5Tokenizer.from_pretrained("google/flan-t5-xxl")
     model = T5ForConditionalGeneration.from_pretrained("google/flan-t5-xxl")
-
 tokenizer.pad_token_id = 0    
 
 #dataset_name='wikimovie'
@@ -310,7 +313,7 @@ def llm_get_embedding_batch(soft_prompts, agent_id, inputs_text, num_agents2, ag
         return 'OOM error'
         
     
-    if llm=="llama2-7bchat" or llm=="llama2-13bchat":
+    if llm=="llama2-7bchat" or llm=="llama2-13bchat" or llm=="Llama3":
         last_hidden = outputs.hidden_states[-1]
         _ = outputs.hidden_states[-1].detach().cpu()
     elif llm=="flant5-3b" or llm=="flant5-11b":
@@ -494,7 +497,7 @@ class Multi_Agent_Net(nn.Module):
     def __init__(self, max_hop):
         super().__init__()
         
-        if llm=='llama2-7bchat':
+        if llm=='llama2-7bchat' or llm=="Llama3":
             emb_dim=4096
         if llm=='flant5-3b':
             emb_dim=2048
@@ -534,6 +537,8 @@ if __name__ == "__main__":
     
     if llm=='flant5-3b':
         llmf='flan-'
+    elif llm=='Llama3':
+        llmf='Llama3-'
     else:
         llmf=''
     if moe:
