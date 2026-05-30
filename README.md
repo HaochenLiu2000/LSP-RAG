@@ -1,4 +1,4 @@
-# Mixture-of-Experts for Knowledge Graph Retrieval-Augmented Generation
+# LSP-RAG: Latent Scoring Perspectives for Knowledge Graph Retrieval-Augmented Generation
 
 ## 1. Datasets
 
@@ -10,14 +10,14 @@ Place the files or folders `metaqa_kg.pickle`, `kb.txt`, `1-hop/vanilla`(renamed
 
 Place the folder `webqsp` and `wikimovie` for the other two datasets.
 
-Download the Llama model [here](https://huggingface.co/meta-llama) and place the model under `/MoRA/`.
+Download the Llama model [here](https://huggingface.co/meta-llama) and place the model under `/LSP-RAG/`.
 
 ## 2. Dependencies
 
 Run the following commands to create a conda environment:
 
-    conda create -y -n mora python=3.11
-    conda activate mora
+    conda create -y -n LSP-RAG python=3.11
+    conda activate LSP-RAG
     pip install numpy==2.0.1
     pip install torch==2.4.0
     pip install transformers==4.46.2
